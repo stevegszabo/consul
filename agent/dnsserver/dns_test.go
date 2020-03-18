@@ -1,4 +1,4 @@
-package agent
+package dnsserver
 
 import (
 	"fmt"
@@ -6853,7 +6853,7 @@ func TestDNS_ConfigReload(t *testing.T) {
 	testrpc.WaitForLeader(t, a.RPC, "dc1")
 
 	for _, s := range a.dnsServers {
-		cfg := s.config.Load().(*dnsConfig)
+		cfg := s.config.Load().(*Config)
 		require.Equal(t, []string{"8.8.8.8:53"}, cfg.Recursors)
 		require.False(t, cfg.AllowStale)
 		require.Equal(t, 20*time.Second, cfg.MaxStale)
@@ -6898,7 +6898,7 @@ func TestDNS_ConfigReload(t *testing.T) {
 	require.NoError(t, err)
 
 	for _, s := range a.dnsServers {
-		cfg := s.config.Load().(*dnsConfig)
+		cfg := s.config.Load().(*Config)
 		require.Equal(t, []string{"1.1.1.1:53"}, cfg.Recursors)
 		require.True(t, cfg.AllowStale)
 		require.Equal(t, 21*time.Second, cfg.MaxStale)
